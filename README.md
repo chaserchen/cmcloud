@@ -1,0 +1,2 @@
+# cmcloud
+class management cloud
