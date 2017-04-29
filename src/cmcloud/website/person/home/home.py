@@ -8,4 +8,4 @@ person_route = route_for('person')
 
 @person_route('GET', '/')
 def list_persons_page():
-    return get_template('list-persons.html').render(persons=list_persons())
+    return get_template('home-page.html').render(persons=list_persons())

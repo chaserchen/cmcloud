@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #eee;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+#home-page {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #eee;
+}
+
+#home-page .floor-wrapper {
+    margin: 10px 0;
+}
+
+#home-page .floor-wrapper .section {
+    float: left;
+    height: 400px;
+    width: 400px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
