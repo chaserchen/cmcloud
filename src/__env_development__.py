@@ -9,7 +9,7 @@ DEVELOPMENT_REDIS_PORT = 6379
 config = __env__.env_config(
     person_website_start_port=2000,
     person_website_process_count=1,
-    person_website_domain='person.dev.dmright.com',
+    person_website_domain='cmcloud.com',
     person_website_domain_port=80,
     persist_store_redis_host=DEVELOPMENT_REDIS_HOST,
     persist_store_redis_port=DEVELOPMENT_REDIS_PORT,
@@ -28,7 +28,7 @@ config = __env__.env_config(
 
 ENV_DEVELOPMENT = {
     'development': veil_env(name='development', hosts={}, servers={
-        '@': veil_server(
+        'dev-server': veil_server(
             host_name='',
             sequence_no=10,
             supervisor_http_port=DEVELOPMENT_SUPERVISOR_HTTP_PORT,
