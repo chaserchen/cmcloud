@@ -1,20 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>{% block title %}{% endblock %}</title>
-<meta name="keywords" content="{% block keywords %}{% endblock %}"/>
-<meta name="description" content="{% block description %}{% endblock %}"/>
-<link rel="stylesheet" type="text/css" href="{{ static_url('person/css/person.css') }}" media="all" data-keep="true"/>
-<script type="text/javascript" src="{{ static_url('person/js/person.js') }}" data-keep="true"></script>
+    <link rel="shortcut icon" sizes="196x196" href="{{ static_url('image/head-title.jpg') }}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="keywords" content="{% block keywords %}{% endblock %}"/>
+    <meta name="description" content="{% block description %}{% endblock %}"/>
+    <link href="{{ static_url('css/person.css') }}" media="all" data-keep="true"/>
+    <link href="{{ static_url('bootstrap/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ static_url('index/style.css') }}" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="{{ static_url('js/jquery-2.1.4.min.js') }}" data-keep="true"></script>
+    <script type="text/javascript" src="{{ static_url('js/js.cookie-2.0.4.min.js') }}" data-keep="true"></script>
+    <script type="text/javascript" src="{{ static_url('js/veil.js') }}" data-keep="true"></script>
+    <script type="text/javascript" src="{{ static_url('bootstrap/bootstrap.min.js') }}" data-keep="true"></script>
 </head>
 <body>
-<div id="container">
-    <div id="main">
-        <div id="main-wrap">
-            {% block main %}{% endblock %}
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">CmCloud</a>
+                {{ widgets.log_out() }}
+            </div>
         </div>
     </div>
-</div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3" id="sidebar">
+                <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                    <li class="active">
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>考勤记录</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>随机点名</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>消息通知</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>请假管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>作业管理</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>学生添加</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);"><i class="icon-chevron-right"></i>教师添加</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="span9" id="content">
+                {% block main %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

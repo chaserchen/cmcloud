@@ -1,4 +1,3 @@
-cmcloud.website.person.home<=website:person
 cmcloud.website.person<=website:person
 veil.backend.alipay=>event:alipay-dback-notified
 veil.backend.alipay=>event:alipay-refund-notified

@@ -7,5 +7,13 @@ person_route = route_for('person')
 
 
 @person_route('GET', '/')
-def list_persons_page():
+def teacher_home_page():
+    request = get_current_http_request()
+    print(request.teacher)
     return get_template('home-page.html').render(persons=list_persons())
+
+
+@widget
+def log_out_widget():
+    request = get_current_http_request()
+    return get_template('log-out-widget.html').render(teacher=request.teacher)
