@@ -1,3 +1,2 @@
 cmcloud<=database:cmcloud
-cmcloud.feature.person<=table:cmcloud/person
 cmcloud.feature.teacher<=table:cmcloud/teacher

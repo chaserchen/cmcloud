@@ -16,7 +16,7 @@ def remember_current_signed(user_id):
 @contextlib.contextmanager
 def set_current_teacher_on_request():
     request = get_current_http_request()
-    teacher_id = get_logged_in_user_id('person')
+    teacher_id = get_logged_in_user_id('teacher')
     teacher = get_teacher(teacher_id)
     request.teacher_id = teacher_id
     request.teacher = teacher

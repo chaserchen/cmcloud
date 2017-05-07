@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function, division
 from veil.profile.web import *
-from cmcloud.feature.person import *
 
-person_route = route_for('person')
+teacher_route = route_for('teacher')
 
 
-@person_route('GET', '/')
+@teacher_route('GET', '/')
 def teacher_home_page():
     request = get_current_http_request()
-    print(request.teacher)
-    return get_template('home-page.html').render(persons=list_persons())
+    return get_template('home-page.html').render()
 
 
 @widget

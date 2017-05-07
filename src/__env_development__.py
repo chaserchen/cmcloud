@@ -7,10 +7,10 @@ DEVELOPMENT_REDIS_HOST = '127.0.0.1'
 DEVELOPMENT_REDIS_PORT = 6379
 
 config = __env__.env_config(
-    person_website_start_port=2000,
-    person_website_process_count=1,
-    person_website_domain='teacher.cmcloud.com',
-    person_website_domain_port=80,
+    teacher_website_start_port=2000,
+    teacher_website_process_count=1,
+    teacher_website_domain='teacher.cmcloud.com',
+    teacher_website_domain_port=80,
     persist_store_redis_host=DEVELOPMENT_REDIS_HOST,
     persist_store_redis_port=DEVELOPMENT_REDIS_PORT,
     memory_cache_redis_host=DEVELOPMENT_REDIS_HOST,
@@ -46,10 +46,10 @@ ENV_DEVELOPMENT = {
                         'clean_up_inline_static_files',
                     ],
                     config=config, count=2),
-                __env__.person_website_programs(config),
+                __env__.teacher_website_programs(config),
                 __env__.log_rotated_nginx_program(merge_multiple_settings(
                     __env__.resweb_nginx_server(config),
-                    __env__.person_website_nginx_server(config),
+                    __env__.teacher_website_nginx_server(config),
                 ))
             )
         )

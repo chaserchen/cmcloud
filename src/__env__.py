@@ -3,11 +3,11 @@ from veil.model.collection import *
 from veil.profile.setting import *
 from veil.frontend.nginx_setting import NGINX_PID_PATH
 
-WEBSITES = ['person']
+WEBSITES = ['teacher']
 
-PERSON_WEBSITE_BUCKETS = ['captcha_image', 'person_images']
+TEACHER_WEBSITE_BUCKETS = ['captcha_image', 'teacher_images']
 
-PERSON_WEBSITE_MAX_UPLOAD_FILE_SIZE = '3m'
+TEACHER_WEBSITE_MAX_UPLOAD_FILE_SIZE = '3m'
 
 REDIS_CLIENTS = ['persist_store', 'memory_cache']
 
@@ -37,7 +37,7 @@ LOGGING_LEVEL_CONFIG = objectify({
 })
 
 
-def env_config(person_website_start_port, person_website_process_count, person_website_domain, person_website_domain_port, persist_store_redis_host,
+def env_config(teacher_website_start_port, teacher_website_process_count, teacher_website_domain, teacher_website_domain_port, persist_store_redis_host,
         persist_store_redis_port, memory_cache_redis_host, memory_cache_redis_port, cmcloud_postgresql_version, cmcloud_postgresql_host,
         cmcloud_postgresql_port, queue_type, queue_host, queue_port, resweb_domain, resweb_domain_port, resweb_host, resweb_port):
     return objectify(locals())
@@ -122,17 +122,17 @@ def memory_cache_redis_program(config):
     return redis_program('memory_cache', config.memory_cache_redis_host, config.memory_cache_redis_port)
 
 
-def person_website_programs(config):
-    return website_programs('person', LOGGING_LEVEL_CONFIG.cmcloud, application_config=cmcloud_config(config), start_port=config.person_website_start_port,
-        process_count=config.person_website_process_count)
+def teacher_website_programs(config):
+    return website_programs('teacher', LOGGING_LEVEL_CONFIG.cmcloud, application_config=cmcloud_config(config), start_port=config.teacher_website_start_port,
+        process_count=config.teacher_website_process_count)
 
 
-def person_website_nginx_server(config, extra_locations=None):
-    locations = website_locations('person', VEIL_ENV.is_prod or VEIL_ENV.is_staging, max_upload_file_size=PERSON_WEBSITE_MAX_UPLOAD_FILE_SIZE)
-    locations = merge_multiple_settings(locations, extra_locations or {}, website_bucket_locations(PERSON_WEBSITE_BUCKETS))
-    return nginx_server(config.person_website_domain, config.person_website_domain_port, locations=locations,
-        upstreams=website_upstreams('person', config.person_website_start_port, config.person_website_process_count),
-        error_page={'404': '404.html', '500': '500.html'}, error_page_dir='{}/static/person/error-page'.format(VEIL_HOME))
+def teacher_website_nginx_server(config, extra_locations=None):
+    locations = website_locations('teacher', VEIL_ENV.is_prod or VEIL_ENV.is_staging, max_upload_file_size=TEACHER_WEBSITE_MAX_UPLOAD_FILE_SIZE)
+    locations = merge_multiple_settings(locations, extra_locations or {}, website_bucket_locations(TEACHER_WEBSITE_BUCKETS))
+    return nginx_server(config.teacher_website_domain, config.teacher_website_domain_port, locations=locations,
+        upstreams=website_upstreams('teacher', config.teacher_website_start_port, config.teacher_website_process_count),
+        error_page={'404': '404.html', '500': '500.html'}, error_page_dir='{}/static/teacher/error-page'.format(VEIL_HOME))
 
 
 def nginx_log_rotater_program():
@@ -176,13 +176,13 @@ def cmcloud_config(config):
             'host': config['{}_redis_host'.format(purpose)],
             'port': config['{}_redis_port'.format(purpose)]
         }
-    person_website_authority = config.person_website_domain if config.person_website_domain_port in (80, 443) else '{}:{}'.format(
-        config.person_website_domain, config.person_website_domain_port)
-    for purpose in PERSON_WEBSITE_BUCKETS:
+    teacher_website_authority = config.teacher_website_domain if config.teacher_website_domain_port in (80, 443) else '{}:{}'.format(
+        config.teacher_website_domain, config.teacher_website_domain_port)
+    for purpose in TEACHER_WEBSITE_BUCKETS:
         cmcloud_config_['{}_bucket'.format(purpose)] = {
             'type': 'filesystem',
             'base_directory': VEIL_BUCKETS_DIR / purpose.replace('_', '-'),
-            'base_url': 'http://{}/buckets/{}'.format(person_website_authority, purpose.replace('_', '-')),
+            'base_url': 'http://{}/buckets/{}'.format(teacher_website_authority, purpose.replace('_', '-')),
         }
     for purpose in POSTGRESQL_CLIENTS:
         cmcloud_config_['{}_database_client'.format(purpose)] = {

@@ -6,15 +6,15 @@ from veil.profile.web import *
 from cmcloud.feature.teacher import *
 from cmcloud.website.shartlet.user import *
 
-person_public_route = route_for('person', tags=(TAG_NO_LOGIN_REQUIRED,))
+teacher_public_route = route_for('teacher', tags=(TAG_NO_LOGIN_REQUIRED,))
 
 
-@person_public_route('GET', '/login')
+@teacher_public_route('GET', '/login')
 def login_widget():
     return get_template('login-widget.html').render()
 
 
-@person_public_route('POST', '/login')
+@teacher_public_route('POST', '/login')
 def login_action():
     arguments = get_http_arguments()
     mobile = arguments.mobile
@@ -24,7 +24,7 @@ def login_action():
     return arguments.get('ru', '/')
 
 
-@person_public_route('GET', '/logout')
+@teacher_public_route('GET', '/logout')
 def logout_action():
-    remove_logged_in_user_id('person')
+    remove_logged_in_user_id('teacher')
     redirect_to('/login')
