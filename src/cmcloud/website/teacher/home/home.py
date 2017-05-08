@@ -15,3 +15,8 @@ def teacher_home_page():
 def log_out_widget():
     request = get_current_http_request()
     return get_template('log-out-widget.html').render(teacher=request.teacher)
+
+
+@widget
+def home_nav_widget():
+    return get_template('hone-nav-widget.html').render()

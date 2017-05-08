@@ -3,12 +3,12 @@
 {% block title %}登录{% endblock %}
 
 {% block main %}
-    <div class="span-6 offset3">
+    <div class="span-6 offset6">
         <form id="login-widget" class="form-horizontal" action="/login" method="POST">
             <div class="control-group">
                 <label class="control-label" for="mobile-input">手机号</label>
                 <div class="controls">
-                    <input type="text" name="mobile" id="mobile-input" placeholder="手机号">
+                    <input type="number" name="mobile" id="mobile-input" placeholder="手机号">
                 </div>
             </div>
             <div class="control-group">

@@ -1,0 +1,60 @@
+{% extends 'master:teacher-website-layout.html' %}
+{% block title %}添加教师{% endblock %}
+{% block main %}
+    <form id="create-teacher-widget" action="/teachers" method="POST">
+        <div class="control-group">
+            <label class="control-label" for="name-input">姓名</label>
+            <div class="controls">
+                <input type="text" name="name" id="name-input" placeholder="姓名">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="mobile-input">手机号</label>
+            <div class="controls">
+                <input type="number" name="mobile" id="mobile-input" placeholder="手机号">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email-input">邮箱</label>
+            <div class="controls">
+                <input type="email" name="email" id="email-input" placeholder="邮箱（选填）">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input type="checkbox" name="is_super" value="1">添加为系统管理员
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">添加</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            veil.widget.handle('#create-teacher-widget', '[type=submit]', 'click', function (widget, e) {
+                e.preventDefault();
+                var data = {
+                    name: $.trim(widget.find('[name=name]').val()),
+                    mobile: widget.find('[name=mobile]').val(),
+                    email: widget.find('[name=email]').val() || null,
+                    is_super: widget.find('[name=is_super]').prop('checked')
+                };
+                if (!data.name) {
+                    alert('请填写姓名');
+                    return;
+                }
+                if (!data.mobile) {
+                    alert('请填写手机号');
+                    return;
+                }
+                veil.widget.createResource(widget, function () {
+                    window.location.reload();
+                }, data, 'json')
+            })
+        });
+    </script>
+{% endblock %}

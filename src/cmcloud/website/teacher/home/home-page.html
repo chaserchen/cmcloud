@@ -1,7 +1,5 @@
 {% extends 'master:teacher-website-layout.html' %}
-
 {% block title %}首页{% endblock %}
-
 {% block main %}
     <div id="home-page">
         <div class="row">
@@ -11,7 +9,6 @@
                 </div>
             </div>
             <div class="span4">
-                <div class="well"></div>
             </div>
         </div>
     </div>
@@ -23,9 +20,9 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    labels: ["软件一班", "软件二班", "软件三班", "软件四班", "网络一班", "网络二班"],
                     datasets: [{
-                        label: '# of Votes',
+                        label: '人数',
                         data: [12, 19, 3, 5, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
