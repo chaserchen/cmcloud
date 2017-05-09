@@ -26,6 +26,7 @@ veil.server.python.python_package_resource?redis=2.10.5
 veil.server.python.python_package_resource?requests=2.13.0
 veil.server.python.python_package_resource?resweb=0.1.7
 veil.server.python.python_package_resource?supervisor=3.3.1
+veil.server.python.python_package_resource?tasktiger=0.8.5
 veil.server.python.python_package_resource?tornado=4.5.1
 veil.server.python.python_package_resource?user-agents=1.1.0
 veil.server.python.python_package_resource?watchdog=0.8.3

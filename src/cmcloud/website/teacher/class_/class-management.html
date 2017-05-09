@@ -1,0 +1,43 @@
+{% extends 'master:teacher-website-layout.html' %}
+
+{% block title %}班级管理{% endblock %}
+
+{% block main %}
+    <button id="add-class" class="btn btn-info">添加班级</button>
+    {{ widgets.list_classes() }}
+    <form id="create-class-widget" action="/classes" method="POST" style="display: none">
+        <div class="control-group">
+            <label class="control-label" for="code-input">班级代码</label>
+            <div class="controls">
+                <input type="number" name="code" id="code-input" placeholder="班级代码">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="name-input">班级名称</label>
+            <div class="controls">
+                <input type="text" name="name" id="name-input" placeholder="班级名称">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">创建</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            veil.widget.handle('', '#add-class', 'click', function () {
+                $.showDialog({
+                    content: $('#create-class-widget').clone().show()
+                });
+            });
+
+            veil.widget.handle('#create-class-widget', '[type=submit]', 'click', function (widget, e) {
+                e.preventDefault();
+                veil.widget.createResource(widget, function () {
+                    window.location.reload();
+                })
+            })
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,46 @@
+<div class="span3" id="sidebar">
+    <ul id="main-nav" class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+        <li id="home-tab" class="active">
+            <a href="/"><i class="icon-chevron-right"></i>考勤记录</a>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>随机点名</a>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>消息通知</a>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>请假管理</a>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>作业管理</a>
+        </li>
+        <li>
+            <a href="/class-management"><i class="icon-chevron-right"></i>班级管理</a>
+        </li>
+        <li>
+            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>学生添加</a>
+        </li>
+        <li>
+            <a href="/teachers/new"><i class="icon-chevron-right"></i>教师添加</a>
+        </li>
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        var $navs = $('#main-nav li');
+        $navs.removeClass('active');
+        if (window.location.pathname === '/') {
+            $('#main-nav #home-tab').addClass('active');
+        } else {
+            $navs.each(function () {
+                if ($(this).is('#home-tab')) {
+                    return;
+                }
+                if (window.location.pathname.indexOf($(this).find('a').attr('href')) == 0) {
+                    $(this).addClass('active');
+                }
+            });
+        }
+    });
+</script>

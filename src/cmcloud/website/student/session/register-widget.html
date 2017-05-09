@@ -1,0 +1,72 @@
+{% extends 'master:student-website-layout-without-nav.html' %}
+
+{% block title %}注册{% endblock %}
+
+{% block main %}
+    <div class="span-6 offset6">
+        <form id="register-widget" class="form-horizontal" action="/register" method="POST">
+            <div class="control-group">
+                <label class="control-label" for="name-input">姓名</label>
+                <div class="controls">
+                    <input type="text" name="name" id="name-input" placeholder="姓名">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="number-input">学号</label>
+                <div class="controls">
+                    <input type="number" name="number" id="number-input" placeholder="学号">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="class-input">班级</label>
+                <div class="controls">
+                    <select name="class_id" id="class-input">
+                        <option value="-1">请选择班级</option>
+                        {% for class in classes %}
+                            <option value="{{ class.id }}">{{ class.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="mobile-input">手机号</label>
+                <div class="controls">
+                    <input type="number" name="mobile" id="mobile-input" placeholder="手机号">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email-input">邮箱</label>
+                <div class="controls">
+                    <input type="email" name="email" id="email-input" placeholder="邮箱">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password-input">密码</label>
+                <div class="controls">
+                    <input type="password" name="password" id="password-input" placeholder="密码">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password-confirm-input">确认密码</label>
+                <div class="controls">
+                    <input type="password" name="password_confirm" id="password-confirm-input" placeholder="确认密码">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">注册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            veil.widget.handle('#register-widget', '[type=submit]', 'click', function (widget, e) {
+                e.preventDefault();
+                veil.widget.createResource(widget, function (ru) {
+                    window.location.replace(ru);
+                });
+            });
+        });
+    </script>
+{% endblock %}

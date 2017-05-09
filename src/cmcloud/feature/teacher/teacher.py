@@ -7,7 +7,7 @@ db = register_database('cmcloud')
 
 
 @command
-def teacher_sign_in(mobile=is_mobile, password=not_empty):
+def teacher_sign_in(mobile=(not_empty, is_mobile), password=not_empty):
     teacher = db().get('SELECT * FROM teacher WHERE mobile=%(mobile)s', mobile=mobile)
     if not teacher:
         raise InvalidCommand({'mobile': '未添加该教师'})
@@ -20,12 +20,20 @@ def get_teacher(id):
     return db().get('SELECT * FROM teacher WHERE id=%(id)s', id=id)
 
 
+def check_teacher_number(number):
+    if len(number) != 8:
+        raise Invalid('工号格式不正确，需为八位数字')
+    return number
+
+
 @command
-def create_teacher(name=not_empty, mobile=is_mobile, email=optional(is_email), is_super=optional(to_bool, default=False)):
-    teacher_id = db().insert('teacher', returns_id=True, conflict_target='(mobile)', conflict_action='DO NOTHING', name=name, mobile=mobile, email=email,
-                             password=get_teacher_password(mobile), is_super=is_super)
+def create_teacher(name=not_empty, number=(not_empty, check_teacher_number), mobile=(not_empty, is_mobile), email=optional(is_email),
+                   is_super=optional(to_bool, default=False)):
+    teacher_id = db().insert('teacher', returns_id=True, conflict_target='(number)', conflict_action='DO NOTHING', name=name, number=number, mobile=mobile,
+                             email=email, password=get_teacher_password(mobile), is_super=is_super)
     if not teacher_id:
-        raise InvalidCommand({'mobile': '该手机号已创建教师账号'})
+        raise InvalidCommand({'number': '该工号已被注册'})
+    return teacher_id
 
 
 def get_teacher_password(str):

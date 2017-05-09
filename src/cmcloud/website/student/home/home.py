@@ -2,19 +2,18 @@
 from __future__ import unicode_literals, print_function, division
 from veil.profile.web import *
 
-teacher_route = route_for('teacher')
+student_route = route_for('student')
 
 
-@teacher_route('GET', '/')
-def teacher_home_page():
-    request = get_current_http_request()
+@student_route('GET', '/')
+def student_home_page():
     return get_template('home-page.html').render()
 
 
 @widget
 def log_out_widget():
     request = get_current_http_request()
-    return get_template('log-out-widget.html').render(teacher=request.teacher)
+    return get_template('log-out-widget.html').render(student=request.student)
 
 
 @widget

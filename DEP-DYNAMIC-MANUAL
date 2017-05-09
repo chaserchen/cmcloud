@@ -1,2 +1,5 @@
 cmcloud<=database:cmcloud
 cmcloud.feature.teacher<=table:cmcloud/teacher
+cmcloud.feature.student<=table:cmcloud/student
+cmcloud.feature.student=>table:cmcloud/class
+cmcloud.feature.class_<=table:cmcloud/class

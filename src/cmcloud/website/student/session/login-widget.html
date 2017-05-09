@@ -1,0 +1,38 @@
+{% extends 'master:student-website-layout-without-nav.html' %}
+
+{% block title %}登录{% endblock %}
+
+{% block main %}
+    <div class="span-6 offset6">
+        <form id="login-widget" class="form-horizontal" action="/login" method="POST">
+            <div class="control-group">
+                <label class="control-label" for="mobile-input">手机号</label>
+                <div class="controls">
+                    <input type="number" name="mobile" id="mobile-input" placeholder="手机号">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password-input">密码</label>
+                <div class="controls">
+                    <input type="password" name="password" id="password-input" placeholder="密码">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                    <a href="/register" id="register-action" style="margin-left: 20px">注册</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            veil.widget.handle('#login-widget', '[type=submit]', 'click', function (widget, e) {
+                e.preventDefault();
+                veil.widget.createResource(widget, function (ru) {
+                    window.location.replace(ru);
+                });
+            });
+        });
+    </script>
+{% endblock %}

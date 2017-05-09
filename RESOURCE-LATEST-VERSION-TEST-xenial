@@ -51,6 +51,7 @@ veil.server.python.python_package_resource?rsa=3.4.2
 veil.server.python.python_package_resource?selenium=3.4.1
 veil.server.python.python_package_resource?suds-jurko=0.6
 veil.server.python.python_package_resource?supervisor=3.3.1
+veil.server.python.python_package_resource?tasktiger=0.8.5
 veil.server.python.python_package_resource?tornado=4.5.1
 veil.server.python.python_package_resource?user-agents=1.1.0
 veil.server.python.python_package_resource?watchdog=0.8.3

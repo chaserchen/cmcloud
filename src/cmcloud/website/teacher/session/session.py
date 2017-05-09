@@ -16,8 +16,8 @@ def login_widget():
 
 @teacher_public_route('POST', '/login')
 def login_action():
-    shopper = teacher_sign_in(get_http_argument('mobile'), get_http_argument('password'))
-    remember_current_signed(shopper.id)
+    teacher = teacher_sign_in(**get_http_arguments())
+    remember_current_signed(teacher.id)
     return get_http_argument('ru', default='/')
 
 

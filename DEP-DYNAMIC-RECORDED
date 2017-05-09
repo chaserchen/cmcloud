@@ -1,3 +1,4 @@
+cmcloud.website.student<=website:student
 cmcloud.website.teacher<=website:teacher
 veil.backend.alipay=>event:alipay-dback-notified
 veil.backend.alipay=>event:alipay-refund-notified

@@ -1,0 +1,1 @@
+ALTER TABLE teacher ADD COLUMN classes INT[] NOT NULL DEFAULT '{}';

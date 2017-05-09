@@ -9,6 +9,7 @@ TEACHER_WEBSITE_BUCKETS = ['captcha_image', 'teacher_images']
 STUDENT_WEBSITE_BUCKETS = ['captcha_image', 'teacher_images']
 
 TEACHER_WEBSITE_MAX_UPLOAD_FILE_SIZE = '3m'
+STUDENT_WEBSITE_MAX_UPLOAD_FILE_SIZE = '3m'
 
 REDIS_CLIENTS = ['persist_store', 'memory_cache']
 
@@ -146,7 +147,7 @@ def teacher_website_nginx_server(config, extra_locations=None):
 
 
 def student_website_nginx_server(config, extra_locations=None):
-    locations = website_locations('student', VEIL_ENV.is_prod or VEIL_ENV.is_staging, max_upload_file_size=TEACHER_WEBSITE_MAX_UPLOAD_FILE_SIZE)
+    locations = website_locations('student', VEIL_ENV.is_prod or VEIL_ENV.is_staging, max_upload_file_size=STUDENT_WEBSITE_MAX_UPLOAD_FILE_SIZE)
     locations = merge_multiple_settings(locations, extra_locations or {}, website_bucket_locations(STUDENT_WEBSITE_BUCKETS))
     return nginx_server(config.student_website_domain, config.student_website_domain_port, locations=locations,
         upstreams=website_upstreams('student', config.student_website_start_port, config.student_website_process_count),

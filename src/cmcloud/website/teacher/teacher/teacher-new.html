@@ -9,6 +9,12 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label" for="number-input">工号</label>
+            <div class="controls">
+                <input type="number" name="number" id="number-input" placeholder="工号">
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label" for="mobile-input">手机号</label>
             <div class="controls">
                 <input type="number" name="mobile" id="mobile-input" placeholder="手机号">
@@ -39,6 +45,7 @@
                 e.preventDefault();
                 var data = {
                     name: $.trim(widget.find('[name=name]').val()),
+                    number: widget.find('[name=number]').val(),
                     mobile: widget.find('[name=mobile]').val(),
                     email: widget.find('[name=email]').val() || null,
                     is_super: widget.find('[name=is_super]').prop('checked')

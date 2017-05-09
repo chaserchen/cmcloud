@@ -30,6 +30,7 @@ config = __env__.env_config(
     resweb_host='127.0.0.1',
     resweb_port=7070)
 
+
 ENV_DEVELOPMENT = {
     'development': veil_env(name='development', hosts={}, servers={
         'dev-server': veil_server(
@@ -51,9 +52,11 @@ ENV_DEVELOPMENT = {
                     ],
                     config=config, count=2),
                 __env__.teacher_website_programs(config),
+                __env__.student_website_programs(config),
                 __env__.log_rotated_nginx_program(merge_multiple_settings(
                     __env__.resweb_nginx_server(config),
                     __env__.teacher_website_nginx_server(config),
+                    __env__.student_website_nginx_server(config),
                 ))
             )
         )

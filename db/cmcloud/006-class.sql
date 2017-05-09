@@ -1,0 +1,5 @@
+CREATE TABLE class(
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(16) NOT NULL,
+    name VARCHAR(16) NOT NULL
+);

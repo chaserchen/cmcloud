@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function, division
+from veil.profile.model import *
+
+db = register_database('cmcloud')
+
+
+def list_classes():
+    return db().list('SELECT * FROM class ORDER BY id')
+
+
+def check_class_code(code):
+    if len(code) != 6:
+        raise Invalid('班级代码不正确，需为六位数字')
+    return code
+
+
+@command
+def create_class(code=(not_empty, check_class_code), name=not_empty):
+    class_id = db().insert('class', returns_id=True, conflict_target='(code)', conflict_action='DO NOTHING', code=code, name=name)
+    if not class_id:
+        raise InvalidCommand({'number': '该班级代码已被使用'})
