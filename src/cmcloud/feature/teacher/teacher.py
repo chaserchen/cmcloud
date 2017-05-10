@@ -36,5 +36,15 @@ def create_teacher(name=not_empty, number=(not_empty, check_teacher_number), mob
     return teacher_id
 
 
+@command
+def list_classes_by_teacher_id(teacher_id=to_integer):
+    return db().list('''
+        SELECT c.*
+        FROM class c
+            INNER JOIN teacher t ON c.id=ANY(t.class_ids)
+        WHERE t.id=%(teacher_id)s
+        ''', teacher_id=teacher_id)
+
+
 def get_teacher_password(str):
     return hashlib.md5(str).hexdigest()

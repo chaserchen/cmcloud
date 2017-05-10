@@ -5,9 +5,11 @@ with veil_component.init_component(__name__):
     from .student import student_sign_in
     from .student import get_student
     from .student import create_student
+    from .student import list_students
 
     __all__ = [
         student_sign_in.__name__,
         get_student.__name__,
         create_student.__name__,
+        list_students.__name__,
     ]

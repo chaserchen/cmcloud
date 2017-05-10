@@ -1,0 +1,17 @@
+{% extends 'master:teacher-website-layout.html' %}
+{% block title %}随机点名{% endblock %}
+{% block main %}
+    <div id="roll-call-widget">
+        <div class="control-group">
+            <label class="control-label" for="class-input">班级</label>
+            <div class="controls">
+                <select name="class_id" id="class-input">
+                    {% for class in classes %}
+                        <option value="{{ class.id }}">{{ class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {{ widgets.roll_call_with_class(classes[0].id) }}
+    </div>
+{% endblock %}

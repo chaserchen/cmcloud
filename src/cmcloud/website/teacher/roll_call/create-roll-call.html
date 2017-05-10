@@ -1,0 +1,94 @@
+<style>
+    .primary {
+        color: #006dcc;
+    }
+    .info {
+        color: #49afcd;
+    }
+    .warning {
+        color: #f89406;
+    }
+</style>
+<div id="roll-call" data-action="/classes/{{ class_id }}/roll-call">
+    <table id="student-list-table" class="table table-striped" data-refresh-url="/classes/{{ class_id }}/roll-call">
+        <thead>
+            <th>序号</th>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>考勤</th>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr id="student-{{ student.id }}" class="student-row" data-id="{{ student.id }}">
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.number }}</td>
+                    <td>{{ student.name }}</td>
+                    <td class="actions">
+                        <div class="action-wrapper">
+                            <button class="btn btn-primary action on-class">到课</button>
+                            <button class="btn btn-info action off-class">旷课</button>
+                            <button class="btn btn-warning action leave-class">请假</button>
+                        </div>
+                        <span class="text"></span>
+                        <button class="btn btn-danger edit" style="display: none">修改</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button id="submit" class="btn btn-success btn-large">提交点名记录</button>
+</div>
+<script>
+    $(document).ready(function () {
+        var onStudentIds = [];
+        var offStudentIds = [];
+        var leaveStudentIds = [];
+        veil.widget.handle('.student-row', '.action', 'click', function (widget, e) {
+            e.preventDefault();
+            var $actionWrapper = widget.find('.action-wrapper');
+            var $text = widget.find('.text');
+            if ($(this).hasClass('on-class')) {
+                onStudentIds.push(widget.data('id'));
+                $actionWrapper.hide();
+                $text.addClass('primary').text('已到课');
+            } else if ($(this).hasClass('off-class')) {
+                offStudentIds.push(widget.data('id'));
+                $actionWrapper.hide();
+                $text.addClass('info').text('已旷课');
+            } else if ($(this).hasClass('leave-class')) {
+                leaveStudentIds.push(widget.data('id'));
+                $actionWrapper.hide();
+                $text.addClass('warning').text('已请假');
+            }
+            widget.find('.edit').show();
+        });
+
+        veil.widget.handle('.student-row', '.edit', 'click', function (widget, e) {
+            e.preventDefault();
+            var studentId = widget.data('id');
+            if (onStudentIds.indexOf(studentId) !== -1) {
+                onStudentIds.splice(onStudentIds.indexOf(studentId), 1);
+            } else if (offStudentIds.indexOf(studentId) !== -1) {
+                offStudentIds.splice(offStudentIds.indexOf(studentId), 1);
+            } else if (leaveStudentIds.indexOf(studentId) !== -1) {
+                leaveStudentIds.splice(leaveStudentIds.indexOf(studentId), 1);
+            }
+            widget.find('.edit').hide();
+            widget.find('.text').text('');
+            widget.find('.action-wrapper').removeClass('primary').removeClass('info').removeClass('warning').show();
+        });
+
+        veil.widget.handle('#roll-call', '#submit', 'click', function (widget, e) {
+            e.preventDefault();
+            var data = {
+                on_student_ids: onStudentIds,
+                off_student_ids: offStudentIds,
+                leave_student_ids: leaveStudentIds
+            };
+            veil.widget.createResource(widget, function () {
+                alert('已提交点名记录');
+                window.location.reload();
+            }, data, 'json')
+        })
+    });
+</script>

@@ -42,6 +42,11 @@ def create_student(name=not_empty, number=(not_empty, check_student_code), class
     return student_id
 
 
+@command
+def list_students(class_id=to_integer):
+    return db().list('SELECT * FROM student WHERE class_id=%(class_id)s', class_id=class_id)
+
+
 def get_student_password(str):
     return hashlib.md5(str).hexdigest()
 

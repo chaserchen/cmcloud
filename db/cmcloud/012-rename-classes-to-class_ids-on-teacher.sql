@@ -1,0 +1,1 @@
+ALTER TABLE teacher RENAME classes TO class_ids;

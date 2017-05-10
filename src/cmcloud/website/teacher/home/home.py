@@ -7,7 +7,6 @@ teacher_route = route_for('teacher')
 
 @teacher_route('GET', '/')
 def teacher_home_page():
-    request = get_current_http_request()
     return get_template('home-page.html').render()
 
 
