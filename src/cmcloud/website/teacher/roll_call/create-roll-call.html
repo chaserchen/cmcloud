@@ -8,9 +8,17 @@
     .warning {
         color: #f89406;
     }
+
+    #roll-call #student-list-actions {
+        margin-bottom: 10px;
+    }
 </style>
-<div id="roll-call" data-action="/classes/{{ class_id }}/roll-call">
-    <table id="student-list-table" class="table table-striped" data-refresh-url="/classes/{{ class_id }}/roll-call">
+<div id="roll-call" data-action="/classes/{{ class_id }}/roll-call" data-refresh-url="/classes/{{ class_id }}/roll-call">
+    <div id="student-list-actions">
+        <button class="filter-students btn all-students {{ 'btn-danger' if not is_partial }}">全部学生</button>
+        <button class="filter-students btn partial-students {{ 'btn-danger' if is_partial }}">随机抽取</button>
+    </div>
+    <table id="student-list-table" class="table table-striped">
         <thead>
             <th>序号</th>
             <th>学号</th>
@@ -37,6 +45,19 @@
         </tbody>
     </table>
     <button id="submit" class="btn btn-success btn-large">提交点名记录</button>
+    <form id="student-count" style="display: none">
+        <div class="control-group">
+            <label class="control-label" for="count-input">学生数</label>
+            <div class="controls">
+                <input type="number" name="count" id="count-input" placeholder="学生数">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </form>
 </div>
 <script>
     $(document).ready(function () {
@@ -89,6 +110,34 @@
                 alert('已提交点名记录');
                 window.location.reload();
             }, data, 'json')
-        })
+        });
+
+        veil.widget.handle('#roll-call', '.all-students', 'click', function (widget, e) {
+            e.preventDefault();
+            widget.find('.filter-students').removeClass('btn-danger');
+            $(this).addClass('btn-danger');
+            veil.widget.refresh(widget);
+        });
+
+        veil.widget.handle('#roll-call', '.partial-students', 'click', function (widget, e) {
+            e.preventDefault();
+            $.showDialog({
+                content: widget.find('#student-count').clone().show()
+            });
+        });
+
+        veil.widget.handle('#student-count', '[type=submit]', 'click', function (widget, e) {
+            e.preventDefault();
+            var count = parseInt(widget.find('[name=count]').val());
+            if (!count) {
+                alert('请输入点名学生数量');
+                return;
+            }
+            $.closeDialog();
+            var $rollCall = $('#roll-call');
+            $rollCall.find('.filter-students').removeClass('btn-danger');
+            $rollCall.find('.partial-students').addClass('btn-danger');
+            veil.widget.refresh($rollCall, {refreshUrl: $rollCall.data('refreshUrl') + '?is_partial=true&count=' + count});
+        });
     });
 </script>

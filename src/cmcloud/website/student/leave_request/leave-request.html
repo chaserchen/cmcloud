@@ -1,0 +1,87 @@
+{% extends 'master:student-website-layout.html' %}
+{% block title %}请假管理{% endblock %}
+{% block main %}
+    <style>
+        .leave-request {
+            position: relative;
+        }
+
+        .leave-request .revoke-action {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <div id="leave-request-widget">
+        <button id="leave-request-action" class="btn btn-success" style="margin-bottom: 20px">请假</button>
+        {% if leave_requests %}
+            {% for chunk in leave_requests |batch(3) %}
+                <div class="row" style="margin-left: 0">
+                    {% for leave_request in chunk %}
+                        <div class="span4 well leave-request" data-id="{{ leave_request.id }}">
+                            <div>状态：<strong style="color: red">{{ leave_request.status |leave_request_status }}</strong></div>
+                            {% if leave_request.teacher_memo %}
+                                <div>教师反馈：<span style="color: red">{{ leave_request.teacher_memo }}</span></div>
+                            {% endif %}
+                            <div>请假原因：<strong>{{ leave_request.reason }}</strong></div>
+                            {% if leave_request.teacher_name %}
+                                <div>处理教师：<strong>{{ leave_request.teacher_name }}</strong></div>
+                            {% endif %}
+                            <div>申请时间：<strong>{{ leave_request.created_at |datetime }}</strong></div>
+                            {% if leave_request.processed_at %}
+                                <div>处理时间：<strong>{{ leave_request.processed_at |datetime }}</strong></div>
+                            {% endif %}
+                            {% if leave_request.is_processing %}
+                                <a class="revoke-action" href="javascript: void(0);">撤销</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>近一个月还未请假</p>
+        {% endif %}
+        <form id="leave-request-form" action="/leave-requests" method="POST" style="display: none">
+            <div class="control-group">
+                <label class="control-label" for="reason-input">请假原因</label>
+                <div class="controls">
+                    <textarea name="reason" id="reason-input" cols="30" rows="5" placeholder="请假原因，不超过250字"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            veil.widget.handle('#leave-request-widget', '#leave-request-action', 'click', function (widget, e) {
+                e.preventDefault();
+                $.showDialog({
+                    content: widget.find('#leave-request-form').clone().show()
+                });
+            });
+
+            veil.widget.handle('#leave-request-form', '[type=submit]', 'click', function (widget, e) {
+                e.preventDefault();
+                veil.widget.createResource(widget, function () {
+                    window.location.reload();
+                })
+            });
+
+            veil.widget.handle('.leave-request', '.revoke-action', 'click', function (widget) {
+                if (!confirm('确定撤销该请假申请吗？')) {
+                    return;
+                }
+                veil.resource.update({
+                    url: '/leave-requests/' + widget.data('id') + '/revoke',
+                    onSuccess: function () {
+                        window.location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

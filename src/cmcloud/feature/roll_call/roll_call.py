@@ -12,3 +12,8 @@ def create_roll_call(class_id=to_integer, on_student_ids=is_list, off_student_id
         raise InvalidCommand({'@': '数据错误，请重新点名并提交'})
     db().insert('roll_call', class_id=class_id, on_student_ids=list(on_student_ids), off_student_ids=list(off_student_ids),
                 leave_student_ids=list(leave_student_ids))
+
+
+@command
+def get_latest_roll_call(class_id=to_integer):
+    return db().get('SELECT * FROM roll_call WHERE class_id=%(class_id)s ORDER BY ID DESC LIMIT 1', class_id=class_id)

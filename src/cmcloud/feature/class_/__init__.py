@@ -3,9 +3,11 @@ import veil_component
 
 with veil_component.init_component(__name__):
     from .class_ import list_classes
+    from .class_ import list_classes_by_teacher_id
     from .class_ import create_class
 
     __all__ = [
         list_classes.__name__,
+        list_classes_by_teacher_id.__name__,
         create_class.__name__,
     ]

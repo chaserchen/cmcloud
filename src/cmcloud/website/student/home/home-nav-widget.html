@@ -1,10 +1,31 @@
 <div class="span3" id="sidebar">
-    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+    <ul id="main-nav" class="nav nav-list bs-docs-sidenav nav-collapse collapse">
         <li>
-            <a href="javascript: void(0);"><i class="icon-chevron-right"></i>请假管理</a>
+            <a href="/notification"><i class="icon-chevron-right"></i>消息通知</a>
+        </li>
+        <li>
+            <a href="/leave-request"><i class="icon-chevron-right"></i>请假</a>
         </li>
         <li>
             <a href="javascript: void(0);"><i class="icon-chevron-right"></i>作业管理</a>
         </li>
     </ul>
 </div>
+<script>
+    $(document).ready(function () {
+        var $navs = $('#main-nav li');
+        $navs.removeClass('active');
+        if (window.location.pathname === '/') {
+            $('#main-nav #home-tab').addClass('active');
+        } else {
+            $navs.each(function () {
+                if ($(this).is('#home-tab')) {
+                    return;
+                }
+                if (window.location.pathname.indexOf($(this).find('a').attr('href')) == 0) {
+                    $(this).addClass('active');
+                }
+            });
+        }
+    });
+</script>

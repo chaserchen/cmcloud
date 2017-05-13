@@ -7,7 +7,7 @@ student_route = route_for('student')
 
 @student_route('GET', '/')
 def student_home_page():
-    return get_template('home-page.html').render()
+    redirect_to('/notification')
 
 
 @widget

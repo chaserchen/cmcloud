@@ -5,7 +5,7 @@ from veil.profile.web import *
 
 from cmcloud.feature.class_ import *
 from cmcloud.feature.student import *
-from cmcloud.website.shartlet.user import *
+from cmcloud.website.sharelet.user import *
 
 student_public_route = route_for('student', tags=(TAG_NO_LOGIN_REQUIRED,))
 

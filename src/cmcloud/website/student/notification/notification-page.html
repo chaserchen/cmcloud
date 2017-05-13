@@ -1,0 +1,19 @@
+{% extends 'master:student-website-layout.html' %}
+{% block title %}消息通知{% endblock %}
+{% block main %}
+    {% if notifications %}
+        {% for chunk in notifications |batch(3) %}
+            <div class="row" style="margin-left: 0">
+                {% for notification in chunk %}
+                    <div class="span4 well notification" data-id="{{ notification.id }}">
+                        <p>{{ notification.created_at |datetime }}</p>
+                        <div>通知类型：<strong>{{ notification.type |notification_type }}</strong></div>
+                        <div>通知内容：<strong>{{ notification.content }}</strong></div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>近三个月还未发布消息通知</p>
+    {% endif %}
+{% endblock %}

@@ -3,6 +3,7 @@ from __future__ import unicode_literals, print_function, division
 
 import hashlib
 
+import operator
 from veil.profile.model import *
 
 db = register_database('cmcloud')
@@ -43,10 +44,37 @@ def create_student(name=not_empty, number=(not_empty, check_student_code), class
 
 
 @command
-def list_students(class_id=to_integer):
-    return db().list('SELECT * FROM student WHERE class_id=%(class_id)s', class_id=class_id)
+def list_students(class_id=to_integer, count=optional(to_integer)):
+    count_term = 'ORDER BY RANDOM() LIMIT %(count)s' if count else 'ORDER BY id'
+    students = db().list('SELECT * FROM student WHERE class_id=%(class_id)s {}'.format(count_term), class_id=class_id, count=count)
+    if count:
+        students.sort(key=operator.attrgetter('id'))
+    return students
 
 
 def get_student_password(str):
     return hashlib.md5(str).hexdigest()
 
+
+def list_student_id2attendance_data(class_id):
+    student_id2data = {id: DictObject() for id in list_students(class_id)}
+    roll_calls = db().list('''
+        SELECT *
+        FROM roll_call
+        WHERE class_id=%(class_id)s AND created_at>=DATE_TRUNC('month', CURRENT_DATE)
+        ''', class_id=class_id)
+    for student_id, data in student_id2data.items():
+        for roll_call in roll_calls:
+            on_count = roll_call.on_student_ids.count(student_id)
+            off_count = roll_call.off_student_ids.count(student_id)
+            leave_count = roll_call.leave_student_ids.count(student_id)
+            if on_count > 0 and off_count > 0 and leave_count > 0:
+                data.update(on_count=data.get('on_count', 0) + on_count, off_count=data.get('off_count', 0) + off_count,
+                            leave_count=data.get('leave_count', 0) + leave_count)
+        total_count = data.on_count + data.off_count + data.leave_count
+        data.update(on_rate=round_rate(data.on_count / total_count), off_rate=round_rate(data.off_count / total_count), leave_count=round_rate(total_count))
+    return student_id2data
+
+
+def round_rate(rate):
+    return int(rate * 100) / 100

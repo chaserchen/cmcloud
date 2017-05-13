@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function, division
 from veil.profile.web import *
 
 from cmcloud.feature.teacher import *
-from cmcloud.website.shartlet.user import *
+from cmcloud.website.sharelet.user import *
 
 teacher_public_route = route_for('teacher', tags=(TAG_NO_LOGIN_REQUIRED,))
 

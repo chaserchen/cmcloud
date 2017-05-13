@@ -3,9 +3,9 @@ from __future__ import unicode_literals, print_function, division
 
 from veil.profile.web import *
 
+from cmcloud.feature.class_ import *
 from cmcloud.feature.roll_call import *
 from cmcloud.feature.student import *
-from cmcloud.feature.teacher import *
 
 teacher_route = route_for('teacher')
 
@@ -21,7 +21,9 @@ def get_roll_call_page():
 @widget
 def roll_call_with_class_widget(class_id=None):
     class_id = class_id or get_http_argument('class_id')
-    return get_template('create-roll-call.html').render(class_id=class_id, students=list_students(class_id))
+    is_partial = get_http_argument('is_partial', to_type=to_bool, default=False)
+    count = get_http_argument('count', to_type=int, optional=True)
+    return get_template('create-roll-call.html').render(class_id=class_id, students=list_students(class_id, count), is_partial=is_partial)
 
 
 @teacher_route('POST', '/classes/{{ class_id }}/roll-call', class_id='\d+')
