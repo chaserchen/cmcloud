@@ -11,3 +11,6 @@ cmcloud.feature.notification=>table:cmcloud/student
 cmcloud.feature.leave_request<=table:cmcloud/leave_request
 cmcloud.feature.leave_request=>table:cmcloud/teacher
 cmcloud.feature.leave_request=>table:cmcloud/student
+cmcloud.feature.homework<=table:cmcloud/homework
+cmcloud.feature.homework<=table:cmcloud/homework_answer
+cmcloud.feature.homework=>table:cmcloud/class
