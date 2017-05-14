@@ -12,6 +12,10 @@
                 </select>
             </div>
         </div>
-        {{ widgets.roll_call_with_class(classes[0].id) }}
+        {% if classes %}
+            {{ widgets.roll_call_with_class(classes[0].id) }}
+        {% else %}
+            <p>还未添加班级</p>
+        {% endif %}
     </div>
 {% endblock %}

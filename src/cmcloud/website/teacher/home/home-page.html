@@ -12,7 +12,11 @@
                 </select>
             </div>
         </div>
-        {{ widgets.class_home(classes[0].id) }}
+        {% if classes %}
+            {{ widgets.class_home(classes[0].id) }}
+        {% else %}
+            <p>还未添加班级</p>
+        {% endif %}
     </div>
     <script>
     </script>
