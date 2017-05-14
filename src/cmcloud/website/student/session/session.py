@@ -17,8 +17,8 @@ def login_widget():
 
 @student_public_route('POST', '/login')
 def login_action():
-    shopper = student_sign_in(**get_http_arguments())
-    remember_current_signed(shopper.id)
+    student = student_sign_in(**get_http_arguments())
+    remember_current_signed(student.id)
     return get_http_argument('ru', default='/')
 
 

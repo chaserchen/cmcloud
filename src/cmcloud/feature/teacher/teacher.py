@@ -6,11 +6,17 @@ import hashlib
 db = register_database('cmcloud')
 
 
+def check_teacher_number(number):
+    if len(number) != 8:
+        raise Invalid('工号格式不正确，需为八位数字')
+    return number
+
+
 @command
-def teacher_sign_in(mobile=(not_empty, is_mobile), password=not_empty):
-    teacher = db().get('SELECT * FROM teacher WHERE mobile=%(mobile)s', mobile=mobile)
+def teacher_sign_in(number=check_teacher_number, password=not_empty):
+    teacher = db().get('SELECT * FROM teacher WHERE number=%(number)s', number=number)
     if not teacher:
-        raise InvalidCommand({'mobile': '未添加该教师'})
+        raise InvalidCommand({'number': '工号不存在'})
     if teacher.password != get_teacher_password(password):
         raise InvalidCommand({'password': '密码错误'})
     return teacher
@@ -18,12 +24,6 @@ def teacher_sign_in(mobile=(not_empty, is_mobile), password=not_empty):
 
 def get_teacher(id):
     return db().get('SELECT * FROM teacher WHERE id=%(id)s', id=id)
-
-
-def check_teacher_number(number):
-    if len(number) != 8:
-        raise Invalid('工号格式不正确，需为八位数字')
-    return number
 
 
 @command
