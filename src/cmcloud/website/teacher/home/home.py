@@ -17,9 +17,12 @@ def teacher_home_page():
 @teacher_route('GET', '/class-home')
 @widget
 def class_home_widget(class_id=None):
-    class_id = class_id or get_http_argument('class_id', optional=True)
+    class_id = class_id or get_http_argument('claeess_id', optional=True)
     roll_call = get_latest_roll_call(class_id)
-    return get_template('class-home-widget.html').render(roll_call=roll_call)
+    if roll_call:
+        return get_template('class-home-widget.html').render(roll_call=roll_call)
+    else:
+        return ''
 
 
 @widget
