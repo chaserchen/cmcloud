@@ -14,9 +14,7 @@ def list_classes_by_teacher_id(teacher_id=to_integer):
     return db().list('''
         SELECT c.*
         FROM class c
-            INNER JOIN teacher t ON c.id=ANY(t.class_ids)
-        WHERE t.id=%(teacher_id)s
-        ''', teacher_id=teacher_id)
+        ''')
 
 
 def check_class_code(code):
