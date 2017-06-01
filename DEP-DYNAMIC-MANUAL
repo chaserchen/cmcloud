@@ -5,6 +5,7 @@ cmcloud.feature.student=>table:cmcloud/class
 cmcloud.feature.class_<=table:cmcloud/class
 cmcloud.feature.class_<=table:cmcloud/teacher
 cmcloud.feature.roll_call<=table:cmcloud/roll_call
+cmcloud.feature.roll_call=>table:cmcloud/student
 cmcloud.feature.notification<=table:cmcloud/notification
 cmcloud.feature.notification=>table:cmcloud/class
 cmcloud.feature.notification=>table:cmcloud/student

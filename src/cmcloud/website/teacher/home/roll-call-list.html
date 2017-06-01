@@ -1,0 +1,39 @@
+{% extends 'master:teacher-website-layout.html' %}
+{% block title %}考勤记录{% endblock %}
+{% block main %}
+    <div id="roll-call-list">
+        {% if roll_call_list %}
+            {% for roll_call in roll_call_list %}
+                <div class="well">
+                    <p><strong>点名时间</strong>：{{ roll_call.created_at |datetime }}</p>
+                    <div><strong>到课学生</strong>：
+                        {% for student in roll_call.on_students %}
+                            <span class="student">{{ student.number }}-{{ student.name }}</span>
+                            {% if not loop.last %}
+                                <span>、</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div><strong>旷课学生</strong>：
+                        {% for student in roll_call.off_students %}
+                            <span class="student">{{ student.number }}-{{ student.name }}</span>
+                            {% if not loop.last %}
+                                <span>、</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div><strong>请假学生</strong>：
+                        {% for student in roll_call.leave_students %}
+                            <span class="student">{{ student.number }}-{{ student.name }}</span>
+                            {% if not loop.last %}
+                                <span>、</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>暂无考勤记录</p>
+        {% endif %}
+    </div>
+{% endblock %}

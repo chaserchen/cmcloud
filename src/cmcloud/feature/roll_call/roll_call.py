@@ -17,3 +17,17 @@ def create_roll_call(class_id=to_integer, on_student_ids=is_list, off_student_id
 @command
 def get_latest_roll_call(class_id=to_integer):
     return db().get('SELECT * FROM roll_call WHERE class_id=%(class_id)s ORDER BY ID DESC LIMIT 1', class_id=class_id)
+
+
+@command
+def list_roll_call(class_id=to_integer):
+    return db().list('''
+        SELECT rc.id, rc.class_id, rc.created_at,
+            ARRAY(SELECT ROW_TO_JSON(s1.*) FROM student s1 WHERE s1.id=ANY(rc.on_student_ids)) AS on_students,
+            ARRAY(SELECT ROW_TO_JSON(s2.*) FROM student s2 WHERE s2.id=ANY(rc.off_student_ids)) AS off_students,
+            ARRAY(SELECT ROW_TO_JSON(s3.*) FROM student s3 WHERE s3.id=ANY(rc.leave_student_ids)) AS leave_students
+        FROM roll_call rc
+        WHERE class_id=%(class_id)s
+        GROUP BY rc.id
+        ORDER BY id DESC
+        ''', class_id=class_id)
