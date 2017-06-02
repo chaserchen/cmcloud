@@ -1,3 +1,4 @@
+{% if roll_call %}
 <div id="class-home-widget" data-on-student-ids="{{ roll_call.on_student_ids }}" data-off-student-ids="{{ roll_call.off_student_ids }}"
      data-leave-student-ids="{{ roll_call.leave_student_ids }}">
     <a href="/classes/{{ class_id }}/roll-call-list" id="show-roll-call-list" class="btn btn-success" style="margin-bottom: 20px">查看考勤记录</a>
@@ -31,31 +32,39 @@
 <script src="{{ static_url('chart/Chart.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        var ctx = document.getElementById("myChart");
-        var widget = $('#class-home-widget');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: [
-                    "到课",
-                    "旷课",
-                    "请假"
-                ],
-                datasets: [
-                    {
-                        data: [widget.data('onStudentIds').length, widget.data('offStudentIds').length, widget.data('leaveStudentIds').length],
-                        backgroundColor: [
-                            "#36A2EB",
-                            "#FF6384",
-                            "#FFCE56"
-                        ],
-                        hoverBackgroundColor: [
-                            "#36A2EB",
-                            "#FF6384",
-                            "#FFCE56"
-                        ]
-                    }]
-            }
-        });
+        veil.widget.initializers.push(init);
+        init();
+
+        function init() {
+            var ctx = document.getElementById("myChart");
+            var widget = $('#class-home-widget');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        "到课",
+                        "旷课",
+                        "请假"
+                    ],
+                    datasets: [
+                        {
+                            data: [widget.data('onStudentIds').length, widget.data('offStudentIds').length, widget.data('leaveStudentIds').length],
+                            backgroundColor: [
+                                "#36A2EB",
+                                "#FF6384",
+                                "#FFCE56"
+                            ],
+                            hoverBackgroundColor: [
+                                "#36A2EB",
+                                "#FF6384",
+                                "#FFCE56"
+                            ]
+                        }]
+                }
+            });
+        }
     });
 </script>
+{% else %}
+    <p>该班没有点名记录</p>
+{% endif %}

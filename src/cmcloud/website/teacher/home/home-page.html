@@ -19,5 +19,10 @@
         {% endif %}
     </div>
     <script>
+        $(document).ready(function() {
+            veil.widget.handle('#home-page', '[name=class_id]', 'change', function () {
+                veil.widget.refresh($('#class-home-widget'), {refreshUrl: '/class-home?claeess_id=' + $(this).val()});
+            })
+        });
     </script>
 {% endblock %}

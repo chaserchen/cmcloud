@@ -28,6 +28,5 @@ def list_roll_call(class_id=to_integer):
             ARRAY(SELECT ROW_TO_JSON(s3.*) FROM student s3 WHERE s3.id=ANY(rc.leave_student_ids)) AS leave_students
         FROM roll_call rc
         WHERE class_id=%(class_id)s
-        GROUP BY rc.id
         ORDER BY id DESC
         ''', class_id=class_id)

@@ -18,4 +18,11 @@
             <p>还未添加班级</p>
         {% endif %}
     </div>
+    <script>
+        $(document).ready(function() {
+            veil.widget.handle('#roll-call-widget', '[name=class_id]', 'change', function () {
+                veil.widget.refresh($('#roll-call'), {refreshUrl: '/classes/' + $(this).val() + '/roll-call'});
+            })
+        });
+    </script>
 {% endblock %}

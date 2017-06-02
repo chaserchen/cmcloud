@@ -22,10 +22,7 @@ def teacher_home_page():
 def class_home_widget(class_id=None):
     class_id = class_id or get_http_argument('claeess_id', optional=True)
     roll_call = get_latest_roll_call(class_id)
-    if roll_call:
-        return get_template('class-home-widget.html').render(class_id=class_id, roll_call=roll_call)
-    else:
-        return ''
+    return get_template('class-home-widget.html').render(class_id=class_id, roll_call=roll_call)
 
 
 @teacher_route('GET', '/classes/{{ class_id }}/roll-call-list', class_id='\d+')
