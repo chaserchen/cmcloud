@@ -31,8 +31,7 @@ def list_processing_leave_requests_for_teacher(teacher_id=to_integer):
         SELECT lr.*
         FROM leave_request lr
             INNER JOIN student s ON s.id=lr.student_id
-        WHERE (SELECT class_ids FROM teacher WHERE id=%(teacher_id)s)@>ARRAY[s.class_id]
-            AND lr.status=%(LEAVE_REQUEST_STATUS_PROCESSING)s
+        WHERE lr.status=%(LEAVE_REQUEST_STATUS_PROCESSING)s
             AND lr.created_at>=(CURRENT_TIMESTAMP - INTERVAL '1 MONTHS')
         ORDER BY id
         ''', teacher_id=teacher_id, LEAVE_REQUEST_STATUS_PROCESSING=LEAVE_REQUEST_STATUS_PROCESSING)
